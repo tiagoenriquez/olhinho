@@ -4,13 +4,6 @@
   É uma aplicação para cálculo de datas.
 </p>
 
-<p>
-  Permite cálculo de quantos dias existem a partir de uma data de início e uma final. Permite calcular a última data de um período de tempo dados a data de início e o número de dias do período.
-</p>
-<p>
-  Também calcular a soma de vários intervalos de data, na qual alguns são acrescidos e outros descontados. A soma 
-</p>
-
 <br>
 
 <p>
