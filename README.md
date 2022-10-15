@@ -5,7 +5,7 @@
 </p>
 
 <p>
-  Permite calcular período entre duas datas, calcular 
+  Permite calcular período entre duas datas, calcular última data de um período
 </p>
 
 <br>
