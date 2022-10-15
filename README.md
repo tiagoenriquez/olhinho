@@ -6,7 +6,6 @@
 
 <p>
   Permite calcular período entre duas datas, calcular última data de um período e somar vários per
-  
 </p>
 
 <br>
