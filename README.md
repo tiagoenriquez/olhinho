@@ -1,4 +1,6 @@
-<img src=".erb/img/erb-banner.svg" width="100%" />
+## Olhinho
+
+Sistema para cálculo de datas.
 
 <br>
 
