@@ -4,6 +4,10 @@
   É uma aplicação para cálculo de datas.
 </p>
 
+<p>
+  Permite calcular período entre duas datas, calcular 
+</p>
+
 <br>
 
 <p>
