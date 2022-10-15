@@ -8,7 +8,7 @@ export function calcularPeriodo(inicio: string, fim: string): string {
 
 export function calcularUltimaData(inicio: string, periodo: string): string {
   const fim = new Date(
-    new Date(inicio).getTime() + Number(periodo) * 24 * 60 * 60 * 1000
+    new Date(inicio).getTime() + Number(periodo) * 24 * 60 * 60 * 1000 - 24
   );
   return fim.toISOString().substring(0, 10);
 }

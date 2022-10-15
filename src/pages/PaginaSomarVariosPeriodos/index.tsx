@@ -1,5 +1,5 @@
 import { Buttons, Erro, Image, Label, TextField } from 'components';
-import { ChangeEvent, MouseEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Periodos, setPeriodos } from 'redux/modules/Periodos';
 import { Periodo } from 'types/Perido';
@@ -23,6 +23,7 @@ const PaginaSomarVariosPeriodos = () => {
   }
   const periodos = useSelector((state: RootsState) => state.periodos);
   const [erro, setErro] = useState<string>('');
+  let id = 0;
 
   const dispatch = useDispatch();
 
@@ -47,63 +48,61 @@ const PaginaSomarVariosPeriodos = () => {
     setFim(event.target.value);
   }, []);
 
-  const alterar = (event: MouseEvent) => {
+  const alterarPeriodo = () => {
     const { somatorio } = periodos;
-    const { descontos } = periodos;
-    const target = event.target as HTMLButtonElement | HTMLImageElement;
-    const id = Number(target.id.replace('botao-alterar-', ''));
-    let indice = somatorio.findIndex((element) => {
-      return element.id === id;
+    const indice = somatorio.findIndex((periodo) => {
+      return periodo.id === id;
     });
-    if (indice >= 0) {
-      const periodoAlterado = somatorio[indice];
-      if (periodoAlterado) dispatch(setPeriodoAlterado(periodoAlterado));
-    } else {
-      indice = descontos.findIndex((element) => {
-        return element.id === id;
-      });
-      const periodoAlterado = descontos[indice];
-      if (periodoAlterado) dispatch(setPeriodoAlterado(periodoAlterado));
-    }
+    const periodoAlterado = somatorio[indice];
+    if (periodoAlterado) dispatch(setPeriodoAlterado(periodoAlterado));
     dispatch(setPagina('alterar-periodo'));
   };
 
-  const excluir = (event: MouseEvent) => {
-    const { somatorio } = periodos;
+  const alterarDesconto = () => {
     const { descontos } = periodos;
-    const target = event.target as HTMLButtonElement | HTMLImageElement;
-    const id = Number(target.id.replace('botao-excluir-', ''));
-    let indice = somatorio.findIndex((element) => {
-      return element.id === id;
+    const indice = descontos.findIndex((desconto) => {
+      return desconto.id === id;
     });
-    if (indice >= 0) {
-      somatorio.splice(indice, 1);
-      dispatch(setPeriodos({ somatorio, descontos }));
-    } else {
-      indice = descontos.findIndex((element) => {
-        return element.id === id;
-      });
-      descontos.splice(indice, 1);
-      dispatch(setPeriodos({ somatorio, descontos }));
-    }
+    const periodoAlterado = descontos[indice];
+    if (periodoAlterado) dispatch(setPeriodoAlterado(periodoAlterado));
+    dispatch(setPagina('alterar-periodo'));
+  };
+
+  const excluirUm = (periodosSubmetidos: Periodo[]) => {
+    const index = periodosSubmetidos.findIndex((periodo) => {
+      return periodo.id === id;
+    });
+    let periodoComExclusao: Periodo[] = [];
+    if (index >= 0) periodoComExclusao = periodosSubmetidos.splice(index, 1);
+    return periodoComExclusao;
+  };
+
+  const excluirPeriodo = () => {
+    const { somatorio, descontos } = periodos;
+    dispatch(setPeriodos({ somatorio: excluirUm(somatorio), descontos }));
+  };
+
+  const excluirDesconto = () => {
+    const { somatorio, descontos } = periodos;
+    dispatch(setPeriodos({ somatorio, descontos: excluirUm(descontos) }));
   };
 
   const adicionar = () => {
     if (!inicio) setErro('Informe a data de início.');
     else if (!fim) setErro('Informe a data final.');
-    else if (inicio >= fim)
+    else if (inicio > fim)
       setErro('A data final precisa ser maior que a de início');
     else {
       const intervalo = calcularPeriodo(inicio, fim);
-      const id = periodos.somatorio.length + periodos.descontos.length + 1;
+      id = periodos.somatorio.length + periodos.descontos.length + 1;
       const periodo: Periodo = {
         id,
         descricao,
         inicio: new Date(inicio),
         fim: new Date(fim),
         periodo: Number(intervalo),
-        alterar,
-        excluir,
+        alterar: alterarPeriodo,
+        excluir: excluirPeriodo,
       };
       limparCampos();
       const { somatorio, descontos } = periodos;
@@ -115,19 +114,19 @@ const PaginaSomarVariosPeriodos = () => {
   const descontar = () => {
     if (!inicio) setErro('Informe a data de início.');
     else if (!fim) setErro('Informe a data final.');
-    else if (inicio >= fim)
+    else if (inicio > fim)
       setErro('A data final precisa ser maior que a de início');
     else {
       const intervalo = calcularPeriodo(inicio, fim);
-      const id = periodos.somatorio.length + periodos.descontos.length + 1;
+      id = periodos.somatorio.length + periodos.descontos.length + 1;
       const periodo: Periodo = {
         id,
         descricao,
         inicio: new Date(inicio),
         fim: new Date(fim),
         periodo: Number(intervalo),
-        alterar,
-        excluir,
+        alterar: alterarDesconto,
+        excluir: excluirDesconto,
       };
       limparCampos();
       const { somatorio, descontos } = periodos;

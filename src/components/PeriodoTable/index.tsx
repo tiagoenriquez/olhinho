@@ -37,7 +37,7 @@ const PeriodoTable = (props: PeriodoTableProp) => {
       </THeadStyled>
       <TBodyStyled>
         {periodos.map((periodo) => (
-          <TrTbodyStyled>
+          <TrTbodyStyled key={periodo.id}>
             <TdTBodyStyled>{periodo.descricao}</TdTBodyStyled>
             <TdTBodyStyled>{mostrarDate(periodo.inicio)}</TdTBodyStyled>
             <TdTBodyStyled>{mostrarDate(periodo.fim)}</TdTBodyStyled>

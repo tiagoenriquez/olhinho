@@ -21,7 +21,7 @@ const PaginaCalcularPeriodo = () => {
   const getPeriodo = useCallback(() => {
     if (!inicio) setErro('Informe a data de início.');
     else if (!fim) setErro('Informe a data final.');
-    else if (inicio >= fim)
+    else if (inicio > fim)
       setErro('A data final precisa ser maior que a de início');
     else setPeriodo(calcularPeriodo(inicio, fim));
   }, [inicio, fim]);

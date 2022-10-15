@@ -17,12 +17,8 @@ const PaginaAlterarPeriodo = () => {
   const periodoAlterado = useSelector(
     (state: RootsState) => state.periodoAlterado
   );
-  periodoAlterado.periodo.inicio.setHours(
-    periodoAlterado.periodo.inicio.getHours() - 3
-  );
-  periodoAlterado.periodo.fim.setHours(
-    periodoAlterado.periodo.fim.getHours() - 3
-  );
+  periodoAlterado.periodo.inicio.setHours(0);
+  periodoAlterado.periodo.fim.setHours(0);
   const periodos = useSelector((state: RootsState) => state.periodos);
   const [descricao, setDescricao] = useState<string>(
     periodoAlterado.periodo.descricao
@@ -49,7 +45,12 @@ const PaginaAlterarPeriodo = () => {
   const somar = useCallback(
     (inicioAlterado: string, fimAlterado: string) => {
       if (inicioAlterado && fimAlterado) {
-        setIntervalo(calcularPeriodo(inicioAlterado, fimAlterado));
+        setIntervalo(
+          calcularPeriodo(
+            inicioAlterado.substring(0, 10),
+            fimAlterado.substring(0, 10)
+          )
+        );
       }
     },
     [setIntervalo]
